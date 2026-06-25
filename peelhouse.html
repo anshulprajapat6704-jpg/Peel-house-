@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peelhouse — Stickers for everything</title>
+<meta name="description" content="Vinyl stickers for laptops, bottles and notebooks. Cute, funny, aesthetic and nature designs, shipped fast across India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   Peelhouse — single-file site
+   Palette: paper #FFF8E7, ink #1A1A1A, pink #FF4D6D,
+            green #3D9970, yellow #FFC857, blue #4D7CFF
+   ========================================================= */
+:root{
+  --paper:#FFF8E7; --ink:#1A1A1A; --pink:#FF4D6D;
+  --green:#3D9970; --yellow:#FFC857; --blue:#4D7CFF;
+  --paper-edge:#EDE3C8; --muted:#6b6b6b; --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:'Space Grotesk',sans-serif; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,.display{font-family:'Baloo 2',sans-serif; font-weight:800; letter-spacing:-0.01em; margin:0;}
+a{color:inherit; text-decoration:none;} button{font-family:inherit; cursor:pointer;}
+img{max-width:100%; display:block;} p{line-height:1.55;}
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{outline:3px solid var(--blue); outline-offset:3px; border-radius:4px;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important; transition-duration:.001ms !important;}}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:5vw; padding-right:5vw;}
+
+header.site{position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:16px 5vw; background:rgba(255,248,231,.92); backdrop-filter:blur(6px); border-bottom:2px solid var(--ink);}
+.logo{display:flex; align-items:center; gap:10px; font-size:1.4rem;}
+.logo-mark{width:30px; height:30px; background:var(--pink); border:2.5px solid var(--ink); border-radius:40% 60% 55% 45%/55% 45% 60% 40%; transform:rotate(-8deg); flex-shrink:0;}
+nav.main{display:flex; gap:24px; align-items:center;}
+nav.main button.navlink{background:none; border:none; font-weight:500; font-size:.95rem; font-family:inherit; position:relative; padding:0;}
+nav.main button.navlink.current{font-weight:700;}
+.cart-link{background:var(--ink); color:var(--paper); padding:9px 16px; border-radius:30px; font-weight:700; font-size:.9rem; border:2px solid var(--ink);}
+.cart-link:hover{background:var(--paper); color:var(--ink);}
+.nav-toggle{display:none; background:none; border:2px solid var(--ink); border-radius:8px; padding:8px 10px;}
+
+.btn{display:inline-flex; align-items:center; gap:8px; padding:14px 26px; border-radius:30px; font-weight:700; font-size:1rem; border:2.5px solid var(--ink); transition:transform .15s, box-shadow .15s; background:transparent;}
+.btn-primary{background:var(--yellow); color:var(--ink); box-shadow:4px 4px 0 var(--ink);}
+.btn-primary:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink);}
+.btn-ghost:hover{background:var(--ink); color:var(--paper);}
+.btn-block{width:100%; justify-content:center;}
+
+.page{display:none; animation:fadeIn .25s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+.hero{position:relative; padding:56px 5vw 30px; display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:center; max-width:var(--maxw); margin:0 auto;}
+.hero h1{font-size:clamp(2.2rem,5vw,4rem); line-height:1.02;}
+.hero h1 .accent{color:var(--pink);}
+.hero p.sub{margin-top:18px; font-size:1.08rem; max-width:460px; color:#3a3a3a;}
+.hero-ctas{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
+.sheet{position:relative; background:#fff; border:2.5px dashed #c9c0a3; border-radius:18px; padding:22px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; transform:rotate(-1.2deg); box-shadow:0 18px 40px -16px rgba(0,0,0,.25);}
+.mini-sticker{aspect-ratio:1; border-radius:50%; border:2.5px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:1.6rem; cursor:pointer; transition:transform .25s cubic-bezier(.2,1.4,.4,1), box-shadow .25s; transform:rotate(calc(var(--r,0) * 1deg)); box-shadow:3px 3px 0 rgba(0,0,0,.15);}
+.mini-sticker:hover{transform:translateY(-6px) rotate(0deg) scale(1.07); box-shadow:6px 10px 0 rgba(0,0,0,.18); z-index:2;}
+.mini-sticker:nth-child(1){background:var(--pink); --r:-6;} .mini-sticker:nth-child(2){background:var(--yellow); --r:4;}
+.mini-sticker:nth-child(3){background:var(--blue); --r:-3;} .mini-sticker:nth-child(4){background:var(--green); --r:5;}
+.mini-sticker:nth-child(5){background:#fff; --r:-4;} .mini-sticker:nth-child(6){background:var(--pink); --r:3;}
+.mini-sticker:nth-child(7){background:var(--blue); --r:6;} .mini-sticker:nth-child(8){background:var(--yellow); --r:-5;}
+.mini-sticker:nth-child(9){background:var(--green); --r:2;}
+
+.values{display:grid; grid-template-columns:repeat(3,1fr); border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);}
+.value{padding:30px 5vw; border-right:2px solid var(--ink); text-align:center;}
+.value:last-child{border-right:none;}
+.value .glyph{font-size:1.6rem; display:block; margin-bottom:8px;}
+.value h3{font-size:1rem; margin-bottom:6px;} .value p{font-size:.85rem; color:#555; margin:0;}
+
+.section{padding:46px 5vw; max-width:var(--maxw); margin:0 auto;}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);}
+.shop-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:26px;}
+.shop-head a, .shop-head button.linklike{font-weight:700; font-size:.9rem; border-bottom:2px solid var(--ink); background:none; border-top:none; border-left:none; border-right:none; padding:0; font-family:inherit; cursor:pointer;}
+
+.cat-strip{display:flex; gap:10px; padding:20px 5vw; overflow-x:auto; max-width:var(--maxw); margin:0 auto; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);}
+.cat-pill{flex-shrink:0; padding:9px 16px; border-radius:30px; border:2px solid var(--ink); font-weight:700; font-size:.85rem; background:#fff;}
+.cat-pill.active, .cat-pill:hover{background:var(--ink); color:var(--paper);}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:22px;}
+.card{position:relative; background:#fff; border:2.5px solid var(--ink); border-radius:16px; padding:0 0 14px; overflow:hidden; transition:transform .2s, box-shadow .2s; cursor:pointer;}
+.card:hover{transform:translateY(-5px); box-shadow:6px 10px 0 rgba(0,0,0,.12);}
+.card-art{aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:3.6rem; border-bottom:2.5px solid var(--ink); position:relative; overflow:hidden;}
+.card-art::after{content:""; position:absolute; top:0; right:0; width:0; height:0; border-style:solid; border-width:0 22px 22px 0; border-color:transparent #fff transparent transparent; filter:drop-shadow(-2px 2px 2px rgba(0,0,0,.15));}
+.card-body{padding:12px 14px 0;}
+.card-name{font-family:'Baloo 2'; font-weight:700; font-size:.98rem;}
+.card-tag{font-size:.72rem; color:#888; text-transform:uppercase; letter-spacing:.04em; margin-top:2px;}
+.card-row{display:flex; justify-content:space-between; align-items:center; margin-top:8px;}
+.price{font-weight:700; font-size:.98rem;}
+.add-btn{width:32px; height:32px; border-radius:50%; border:2px solid var(--ink); background:var(--yellow); font-size:1rem; font-weight:700; line-height:1;}
+.add-btn:hover{background:var(--pink);}
+
+.crumb{font-size:.8rem; color:var(--muted); margin-bottom:8px;}
+.crumb button{background:none; border:none; padding:0; font:inherit; color:var(--muted); cursor:pointer;}
+.crumb button:hover{text-decoration:underline;}
+
+/* product detail */
+.product{display:grid; grid-template-columns:1fr 1fr; gap:40px; padding:6px 5vw 40px; max-width:var(--maxw); margin:0 auto; align-items:start;}
+.product-art{aspect-ratio:1; border:2.5px solid var(--ink); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:7rem; box-shadow:6px 10px 0 rgba(0,0,0,.12);}
+.product-tag{display:inline-block; font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; border:2px solid var(--ink); border-radius:30px; padding:5px 14px; margin-bottom:12px;}
+.product h1{font-size:clamp(1.7rem,3.4vw,2.3rem);}
+.product-price{font-size:1.4rem; font-weight:700; margin-top:8px;}
+.product-desc{margin-top:14px; color:#3a3a3a; max-width:420px;}
+.qty-control{display:flex; align-items:center; border:2px solid var(--ink); border-radius:30px; overflow:hidden; width:fit-content; margin-top:20px;}
+.qty-control button{background:#fff; border:none; width:36px; height:36px; font-size:1.05rem; font-weight:700;}
+.qty-control button:hover{background:var(--yellow);}
+.qty-control span{width:34px; text-align:center; font-weight:700;}
+.product-ctas{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap;}
+
+/* cart & checkout */
+.cart-layout{display:grid; grid-template-columns:1fr 320px; gap:34px; padding:6px 5vw 50px; max-width:var(--maxw); margin:0 auto; align-items:start;}
+.cart-item{display:grid; grid-template-columns:56px 1fr auto auto; align-items:center; gap:14px; padding:14px 0; border-bottom:2px solid var(--paper-edge);}
+.cart-item-art{width:56px; height:56px; border-radius:12px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:1.6rem;}
+.cart-item-name{font-family:'Baloo 2'; font-weight:700; font-size:.95rem;}
+.cart-item-tag{font-size:.72rem; color:var(--muted); text-transform:uppercase;}
+.remove-btn{background:none; border:none; color:var(--muted); font-size:.78rem; text-decoration:underline; margin-top:4px; padding:0;}
+.remove-btn:hover{color:var(--pink);}
+.qty-control.sm button{width:28px; height:28px; font-size:.9rem;}
+.qty-control.sm span{width:26px; font-size:.85rem;}
+.cart-item-price{font-weight:700; min-width:50px; text-align:right;}
+.summary{border:2.5px solid var(--ink); border-radius:16px; padding:22px; background:#fff;}
+.summary-row{display:flex; justify-content:space-between; font-size:.9rem; margin-bottom:10px; color:#444;}
+.summary-row.total{font-size:1.1rem; font-weight:700; color:var(--ink); border-top:2px solid var(--paper-edge); padding-top:12px; margin-top:6px;}
+.empty-state{padding:50px 0; text-align:center;}
+.empty-state .glyph{font-size:2.6rem; display:block; margin-bottom:12px;}
+
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:.82rem; font-weight:700; margin-bottom:5px;}
+.field input, .field textarea{width:100%; padding:11px 13px; border:2px solid var(--ink); border-radius:10px; font-family:inherit; font-size:.92rem; background:#fff;}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+fieldset{border:2px solid var(--ink); border-radius:12px; padding:14px; margin:0 0 16px;}
+legend{font-weight:700; font-size:.82rem; padding:0 6px;}
+.radio-row{display:flex; align-items:flex-start; gap:10px; margin-bottom:10px;}
+.radio-row input{margin-top:3px;}
+.radio-row label{font-size:.9rem;}
+.radio-row small{display:block; color:var(--muted); margin-top:2px;}
+.note-box{background:var(--paper); border:2px dashed #c9c0a3; border-radius:12px; padding:13px 15px; font-size:.82rem; color:#555; margin-top:14px; line-height:1.5;}
+.mini-line{display:flex; justify-content:space-between; font-size:.86rem; margin-bottom:8px; color:#444;}
+
+/* docs / about / contact */
+.doc-body{max-width:640px; padding:6px 5vw 50px; margin:0 auto;}
+.doc-body p, .doc-body li{color:#333; margin-bottom:10px; line-height:1.6;}
+.doc-body h2{margin-top:26px; margin-bottom:10px; font-size:1.15rem;}
+.doc-body ul{padding-left:20px;}
+.updated{color:var(--muted); font-size:.82rem;}
+details{border-bottom:2px solid var(--paper-edge); padding:14px 0;}
+summary{font-weight:700; font-family:'Baloo 2'; cursor:pointer; font-size:1rem; list-style:none; display:flex; justify-content:space-between; align-items:center;}
+summary::-webkit-details-marker{display:none;}
+summary::after{content:"+"; font-size:1.2rem; color:var(--pink);}
+details[open] summary::after{content:"−";}
+details p{margin-top:8px;}
+.contact-layout{display:grid; grid-template-columns:1fr 1fr; gap:40px; padding:6px 5vw 50px; max-width:var(--maxw); margin:0 auto;}
+.contact-info{border:2.5px solid var(--ink); border-radius:16px; padding:20px; background:#fff; height:fit-content;}
+.contact-info h3{font-size:.9rem; margin-bottom:5px;}
+.contact-info p{font-size:.86rem; color:#444; margin-bottom:16px;}
+.confirm{max-width:460px; margin:0 auto; padding:60px 5vw 70px; text-align:center;}
+.confirm .glyph{font-size:3rem; display:block; margin-bottom:14px;}
+
+footer.site{border-top:2px solid var(--ink); margin-top:40px;}
+.footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:26px; padding:38px 5vw 20px; max-width:var(--maxw); margin:0 auto;}
+.footer-grid h4{font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px; color:var(--muted); font-weight:700;}
+.footer-grid ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:7px;}
+.footer-grid button.linklike{background:none; border:none; padding:0; font:inherit; text-align:left; cursor:pointer;}
+.footer-grid a:hover, .footer-grid button.linklike:hover{text-decoration:underline;}
+.footer-bottom{border-top:2px solid var(--ink); padding:16px 5vw 22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; max-width:var(--maxw); margin:0 auto; font-size:.8rem; color:var(--muted);}
+
+#toast{position:fixed; bottom:22px; left:50%; transform:translate(-50%,18px); background:var(--ink); color:var(--paper); padding:12px 22px; border-radius:30px; font-weight:700; font-size:.88rem; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:100; max-width:90vw; text-align:center;}
+#toast.show{opacity:1; transform:translate(-50%,0);}
+
+@media (max-width: 880px){
+  .hero{grid-template-columns:1fr; padding-top:26px;}
+  .values{grid-template-columns:1fr;}
+  .value{border-right:none; border-bottom:2px solid var(--ink);}
+  .value:last-child{border-bottom:none;}
+  .product{grid-template-columns:1fr; gap:24px;}
+  .product-art{font-size:5rem;}
+  .cart-layout, .contact-layout{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  nav.main{position:fixed; top:64px; left:0; right:0; bottom:0; background:var(--paper); flex-direction:column; align-items:flex-start; gap:0; padding:10px 5vw 30px; transform:translateY(-110%); transition:transform .25s; border-bottom:2px solid var(--ink); z-index:40;}
+  nav.main.open{transform:translateY(0);}
+  nav.main button.navlink{width:100%; text-align:left; padding:14px 0; border-bottom:1px solid var(--paper-edge);}
+  nav.main a.cart-link{width:auto; margin-top:10px;}
+  .nav-toggle{display:inline-flex;}
+}
+@media (max-width: 600px){ .footer-grid{grid-template-columns:1fr;} .field-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <button class="logo navlink" data-page="home" style="background:none;border:none;padding:0;cursor:pointer;">
+    <span class="logo-mark" aria-hidden="true"></span><span class="display">Peelhouse</span>
+  </button>
+  <nav class="main">
+    <button class="navlink current" data-page="home">Home</button>
+    <button class="navlink" data-page="shop">Shop</button>
+    <button class="navlink" data-page="about">About</button>
+    <button class="navlink" data-page="contact">Contact</button>
+    <button class="navlink cart-link" data-page="cart">Cart (<span class="cart-count">0</span>)</button>
+  </nav>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+</header>
+
+<!-- ============ HOME ============ -->
+<main id="page-home" class="page active">
+  <section class="hero">
+    <div>
+      <h1>Stickers for <span class="accent">every</span> surface, every mood.</h1>
+      <p class="sub">Laptops, water bottles, notebooks, skateboards — whatever you've got, we've got a sticker that belongs on it. Cute ones, weird ones, funny ones, the lot.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary navlink" data-page="shop">Browse the sheet →</button>
+        <button class="btn btn-ghost navlink" data-page="about">Why Peelhouse</button>
+      </div>
+    </div>
+    <div class="sheet" aria-hidden="true">
+      <div class="mini-sticker">🌵</div><div class="mini-sticker">🍒</div><div class="mini-sticker">👾</div>
+      <div class="mini-sticker">🔥</div><div class="mini-sticker">🐸</div><div class="mini-sticker">✨</div>
+      <div class="mini-sticker">🍄</div><div class="mini-sticker">🛹</div><div class="mini-sticker">😎</div>
+    </div>
+  </section>
+
+  <section class="values">
+    <div class="value"><span class="glyph">🌧️</span><h3>Waterproof, always</h3><p>Vinyl that survives bottles, rain, and the bottom of a backpack.</p></div>
+    <div class="value"><span class="glyph">📦</span><h3>Ships in days, not weeks</h3><p>Small batches, packed by hand, out the door fast.</p></div>
+    <div class="value"><span class="glyph">🎨</span><h3>New drops monthly</h3><p>Fresh designs every month — nothing sits on the sheet forever.</p></div>
+  </section>
+
+  <section class="section">
+    <div class="shop-head">
+      <h2>Fresh off the sheet</h2>
+      <button class="linklike navlink" data-page="shop">See all stickers →</button>
+    </div>
+    <div class="grid" id="featured-grid"></div>
+  </section>
+</main>
+
+<!-- ============ SHOP ============ -->
+<main id="page-shop" class="page">
+  <div class="section" style="padding-bottom:0;">
+    <div class="crumb"><button class="navlink" data-page="home">Home</button> / Shop</div>
+    <h1>The full sheet</h1>
+    <p style="margin-top:8px; color:#3a3a3a; max-width:480px;">Every sticker we make, in one place. Vinyl, waterproof, ready to peel.</p>
+  </div>
+  <div class="cat-strip" id="cat-strip"></div>
+  <section class="section">
+    <div class="shop-head"><p id="count-label" style="color:#555; font-size:.9rem;"></p></div>
+    <div class="grid" id="shop-grid"></div>
+  </section>
+</main>
+
+<!-- ============ PRODUCT ============ -->
+<main id="page-product" class="page">
+  <div class="section" style="padding-bottom:0;">
+    <div class="crumb"><button class="navlink" data-page="home">Home</button> / <button class="navlink" data-page="shop">Shop</button> / <span id="crumb-name">Sticker</span></div>
+  </div>
+  <div class="product" id="product-mount"></div>
+  <section class="section">
+    <h2 style="font-size:1.3rem; margin-bottom:18px;">You might also like</h2>
+    <div class="grid" id="related-grid"></div>
+  </section>
+</main>
+
+<!-- ============ CART ============ -->
+<main id="page-cart" class="page">
+  <div class="section" style="padding-bottom:0;">
+    <div class="crumb"><button class="navlink" data-page="home">Home</button> / Cart</div>
+    <h1>Your cart</h1>
+  </div>
+  <div class="cart-layout">
+    <div id="cart-items"></div>
+    <div class="summary">
+      <h2 style="font-size:1.15rem; margin-bottom:14px;">Order summary</h2>
+      <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">₹0</span></div>
+      <div class="summary-row"><span>Shipping</span><span id="sum-shipping">₹40</span></div>
+      <div class="summary-row total"><span>Total</span><span id="sum-total">₹0</span></div>
+      <button class="btn btn-primary btn-block navlink" data-page="checkout" id="checkout-btn" style="margin-top:16px;">Checkout →</button>
+      <button class="btn btn-ghost btn-block navlink" data-page="shop" style="margin-top:10px;">Continue shopping</button>
+    </div>
+  </div>
+</main>
+
+<!-- ============ CHECKOUT ============ -->
+<main id="page-checkout" class="page">
+  <div class="section" style="padding-bottom:0;">
+    <div class="crumb"><button class="navlink" data-page="home">Home</button> / <button class="navlink" data-page="cart">Cart</button> / Checkout</div>
+    <h1>Checkout</h1>
+  </div>
+  <div class="cart-layout">
+    <div>
+      <form id="checkout-form">
+        <fieldset>
+          <legend>Delivery details</legend>
+          <div class="field"><label for="name">Full name</label><input type="text" id="name" required></div>
+          <div class="field-row">
+            <div class="field"><label for="phone">Phone number</label><input type="tel" id="phone" required></div>
+            <div class="field"><label for="email">Email</label><input type="email" id="email" required></div>
+          </div>
+          <div class="field"><label for="address">Address</label><textarea id="address" rows="2" required></textarea></div>
+          <div class="field-row">
+            <div class="field"><label for="city">City</label><input type="text" id="city" required></div>
+            <div class="field"><label for="pincode">PIN code</label><input type="text" id="pincode" required></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>How you'll pay</legend>
+          <div class="radio-row"><input type="radio" name="pay" id="pay-link" value="link" checked>
+            <label for="pay-link">Pay online now<small>Card, UPI or netbanking via secure payment link.</small></label></div>
+          <div class="radio-row"><input type="radio" name="pay" id="pay-manual" value="manual">
+            <label for="pay-manual">Pay on confirmation<small>We'll message you a UPI/payment link after confirming your order.</small></label></div>
+        </fieldset>
+        <div class="note-box">You'll be taken to a secure payment page to complete your order. Replace this with your live payment link once it's set up.</div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:18px;">Place order</button>
+      </form>
+    </div>
+    <div class="summary">
+      <h2 style="font-size:1.1rem; margin-bottom:12px;">Order summary</h2>
+      <div id="mini-lines"></div>
+      <div class="summary-row total"><span>Total</span><span id="mini-total">₹0</span></div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ ORDER CONFIRMED ============ -->
+<main id="page-confirmed" class="page">
+  <div class="confirm">
+    <span class="glyph">🎉</span>
+    <h1 id="confirm-title">Order placed!</h1>
+    <p id="confirm-body" style="color:#444; margin-top:12px;">Thanks for your order.</p>
+    <button class="btn btn-primary navlink" data-page="shop" style="margin-top:22px;">Keep browsing</button>
+  </div>
+</main>
+
+<!-- ============ ABOUT ============ -->
+<main id="page-about" class="page">
+  <div class="section" style="padding-bottom:0;">
+    <div class="crumb"><button class="navlink" data-page="home">Home</button> / About</div>
+    <h1>Stickers, made by hand, for everything you own.</h1>
+  </div>
+  <div class="doc-body">
+    <p>Peelhouse started as a one-person project: a few designs, a sheet of vinyl, and a laptop that needed decorating. It's still small — every order is packed by hand — but the sheet keeps growing.</p>
+    <p>We design across four lanes: cute characters, funny one-liners, aesthetic minimal marks, and nature-inspired vibes. If it fits on a laptop lid or a water bottle, it's fair game.</p>
+    <h2>What we use</h2>
+    <p>Every sticker is printed on waterproof, UV-resistant vinyl that holds up to bottles, rain, sun, and the inside of a backpack. Matte, glossy or holographic finishes depending on the design.</p>
+    <h2>Where we ship from</h2>
+    <p>Chandigarh, India. Most orders go out within 2–4 business days.</p>
+    <h2>Got a design idea?</h2>
+    <p>We take suggestions and custom requests. <button class="navlink linklike" data-page="contact" style="text-decoration:underline;">Reach out</button> and tell us what you want to see on the sheet.</p>
+  </div>
+</main>
+
+<!-- ============ CONTACT ============ -->
+<main id="page-contact" class="page">
+  <div class="section" style="padding-bottom:0;">
+    <div class="crumb"><button class="navlink" data-page="home">Home</button> / Contact</div>
+    <h1>Get in touch</h1>
+    <p style="margin-top:8px; color:#3a3a3a; max-width:480px;">Questions about an order, a custom design idea, or a delivery delay — we read everything.</p>
+  </div>
+  <div class="contact-layout">
+    <form id="contact-form">
+      <div class="field"><label for="c-name">Name</label><input type="text" id="c-name" required></div>
+      <div class="field"><label for="c-email">Email</label><input type="email" id="c-email" required></div>
+      <div class="field"><label for="c-message">Message</label><textarea id="c-message" rows="5" required></textarea></div>
+      <button type="submit" class="btn btn-primary">Send message</button>
+    </form>
+    <div class="contact-info">
+      <h3>Email</h3><p><a href="mailto:hello@peelhouse.example">hello@peelhouse.example</a><br>Replace with your real address before launch.</p>
+      <h3>WhatsApp</h3><p><a href="https://wa.me/910000000000" target="_blank" rel="noopener">Message us on WhatsApp</a><br>Replace the number with yours.</p>
+      <h3>Instagram</h3><p><a href="#" target="_blank" rel="noopener">@peelhouse</a><br>Add your handle once you've set one up.</p>
+    </div>
+  </div>
+</main>
+
+<!-- ============ SHIPPING ============ -->
+<main id="page-shipping" class="page">
+  <div class="section" style="padding-bottom:0;"><div class="crumb"><button class="navlink" data-page="home">Home</button> / Shipping</div><h1>Shipping</h1></div>
+  <div class="doc-body">
+    <h2>Processing time</h2>
+    <p>Orders are packed by hand and usually leave within 2–4 business days of being placed. During sales or new drops this can stretch to 5–7 days — we'll always let you know if there's a delay.</p>
+    <h2>Delivery time</h2>
+    <ul><li>Metro cities: 3–5 business days after dispatch</li><li>Rest of India: 5–8 business days after dispatch</li></ul>
+    <h2>Shipping cost</h2>
+    <p>A flat ₹40 covers any order size.</p>
+    <h2>Tracking</h2>
+    <p>Once your order ships, you'll get a tracking link by email or WhatsApp.</p>
+    <h2>Where we deliver</h2>
+    <p>Currently shipping within India only.</p>
+  </div>
+</main>
+
+<!-- ============ RETURNS ============ -->
+<main id="page-returns" class="page">
+  <div class="section" style="padding-bottom:0;"><div class="crumb"><button class="navlink" data-page="home">Home</button> / Returns</div><h1>Returns &amp; refunds</h1></div>
+  <div class="doc-body">
+    <h2>Damaged or wrong items</h2>
+    <p>Stickers are made-to-order in small batches, so we don't accept returns for "changed my mind." But if your order arrives damaged, or you received the wrong design, message us within 7 days of delivery with a photo and we'll send a replacement or refund — your choice.</p>
+    <h2>Lost in transit</h2>
+    <p>If tracking shows no movement for over 10 days, contact us and we'll follow up with the courier or send a replacement.</p>
+    <h2>How refunds work</h2>
+    <p>Approved refunds are sent back to your original payment method and usually show up within 5–7 business days.</p>
+    <h2>Cancellations</h2>
+    <p>You can cancel for a full refund as long as the order hasn't shipped yet. Message us as soon as possible.</p>
+  </div>
+</main>
+
+<!-- ============ FAQ ============ -->
+<main id="page-faq" class="page">
+  <div class="section" style="padding-bottom:0;"><div class="crumb"><button class="navlink" data-page="home">Home</button> / FAQ</div><h1>Frequently asked questions</h1></div>
+  <div class="doc-body">
+    <details open><summary>What are the stickers made of?</summary><p>Waterproof vinyl with a UV-resistant laminate, so they hold up to sun, rain, and dishwashers (bottle stickers, anyway).</p></details>
+    <details><summary>How long does shipping take?</summary><p>Orders ship within 2–4 business days, then 3–8 business days in transit depending on your location.</p></details>
+    <details><summary>Do you ship internationally?</summary><p>Not yet — India only for now.</p></details>
+    <details><summary>Can I request a custom design?</summary><p>Yes — <button class="navlink linklike" data-page="contact" style="text-decoration:underline;">message us</button> with your idea and we'll let you know if we can make it happen.</p></details>
+    <details><summary>What if my stickers arrive damaged?</summary><p>Send us a photo within 7 days of delivery and we'll replace or refund them.</p></details>
+    <details><summary>How do I pay?</summary><p>Card, UPI, or netbanking through our secure checkout. You can also choose pay-on-confirmation at checkout.</p></details>
+  </div>
+</main>
+
+<!-- ============ TERMS ============ -->
+<main id="page-terms" class="page">
+  <div class="section" style="padding-bottom:0;"><div class="crumb"><button class="navlink" data-page="home">Home</button> / Terms</div><h1>Terms of service</h1><p class="updated">Last updated: June 2026</p></div>
+  <div class="doc-body">
+    <p>This is a starting template, not legal advice — have it checked by someone qualified before you rely on it, especially once real money is involved.</p>
+    <h2>1. About Peelhouse</h2><p>Peelhouse is an independent sticker shop. By placing an order through this site, you agree to these terms.</p>
+    <h2>2. Orders &amp; payment</h2><p>Prices are listed in Indian Rupees (₹) and include applicable taxes unless stated otherwise.</p>
+    <h2>3. Shipping</h2><p>See the shipping section for delivery times and costs. Delivery dates are estimates, not guarantees.</p>
+    <h2>4. Returns &amp; refunds</h2><p>Covered in the returns section.</p>
+    <h2>5. Product use</h2><p>Stickers are decorative items. Keep small pieces away from young children to avoid a choking hazard.</p>
+    <h2>6. Limitation of liability</h2><p>Peelhouse is not liable for indirect or incidental damages arising from product use beyond the cost of the order itself.</p>
+    <h2>7. Changes</h2><p>We may update these terms as the shop grows.</p>
+    <h2>8. Contact</h2><p>Questions about these terms? <button class="navlink linklike" data-page="contact" style="text-decoration:underline;">Get in touch.</button></p>
+  </div>
+</main>
+
+<!-- ============ PRIVACY ============ -->
+<main id="page-privacy" class="page">
+  <div class="section" style="padding-bottom:0;"><div class="crumb"><button class="navlink" data-page="home">Home</button> / Privacy</div><h1>Privacy policy</h1><p class="updated">Last updated: June 2026</p></div>
+  <div class="doc-body">
+    <p>This is a starting template — review it against whatever payment or analytics tools you actually connect before publishing.</p>
+    <h2>What we collect</h2><p>When you place an order, we collect your name, email, phone number, and delivery address to fulfil that order.</p>
+    <h2>How we use it</h2>
+    <ul><li>To process and ship your order</li><li>To contact you about your order</li><li>To respond to questions or custom requests</li></ul>
+    <p>We don't sell your information to third parties.</p>
+    <h2>Payment information</h2><p>Payments are processed by our payment provider directly — we don't store your card details on this site.</p>
+    <h2>Cookies</h2><p>This site stores your cart contents in your browser's local storage so it's there when you come back.</p>
+    <h2>Your rights</h2><p>You can ask us to delete your order information at any time by contacting us.</p>
+  </div>
+</main>
+
+<footer class="site" id="footer-mount">
+  <div class="footer-grid">
+    <div>
+      <div class="logo"><span class="logo-mark" aria-hidden="true"></span><span class="display">Peelhouse</span></div>
+      <p style="margin-top:10px; font-size:.86rem; color:var(--muted); max-width:260px;">Made for the people who decorate everything. Small-batch vinyl stickers, packed by hand.</p>
+    </div>
+    <div><h4>Shop</h4><ul>
+      <li><button class="linklike navlink" data-page="shop">All stickers</button></li>
+      <li><button class="linklike navlink" data-page="shop" data-cat="cute">Cute & characters</button></li>
+      <li><button class="linklike navlink" data-page="shop" data-cat="funny">Funny & meme</button></li>
+      <li><button class="linklike navlink" data-page="shop" data-cat="aesthetic">Aesthetic & minimal</button></li>
+    </ul></div>
+    <div><h4>Help</h4><ul>
+      <li><button class="linklike navlink" data-page="shipping">Shipping</button></li>
+      <li><button class="linklike navlink" data-page="returns">Returns</button></li>
+      <li><button class="linklike navlink" data-page="faq">FAQ</button></li>
+      <li><button class="linklike navlink" data-page="contact">Contact us</button></li>
+    </ul></div>
+    <div><h4>Peelhouse</h4><ul>
+      <li><button class="linklike navlink" data-page="about">About</button></li>
+      <li><button class="linklike navlink" data-page="terms">Terms</button></li>
+      <li><button class="linklike navlink" data-page="privacy">Privacy</button></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Peelhouse. All stickers, no regrets.</span><span>Made in Chandigarh, India 🇮🇳</span></div>
+</footer>
+
+<div id="toast" role="status"></div>
+
+<script>
+/* ---------------- product data ---------------- */
+const STICKERS = [
+  { id:"spike", emoji:"🌵", name:"Spike", tag:"Cute", cat:"cute", price:50, bg:"var(--green)", desc:"A small cactus with a big personality. Waterproof vinyl, 6.5cm." },
+  { id:"froggy-mood", emoji:"🐸", name:"Froggy Mood", tag:"Cute", cat:"cute", price:45, bg:"var(--green)", desc:"For days when you feel a bit pond-shaped. Matte vinyl, 6cm." },
+  { id:"unhinged-uni", emoji:"🦄", name:"Unhinged Unicorn", tag:"Cute", cat:"cute", price:50, bg:"var(--pink)", desc:"Not all unicorns are gentle. Glossy vinyl, 7cm." },
+  { id:"its-fine", emoji:"😭", name:"It's Fine", tag:"Funny", cat:"funny", price:45, bg:"var(--yellow)", desc:"The official sticker of deadline week. Matte vinyl, 6cm." },
+  { id:"this-is-fine", emoji:"🔥", name:"This Is Fine", tag:"Funny", cat:"funny", price:45, bg:"var(--pink)", desc:"A classic for the chronically calm-on-the-outside. Glossy vinyl, 6.5cm." },
+  { id:"glitch-gremlin", emoji:"👾", name:"Glitch Gremlin", tag:"Funny", cat:"funny", price:50, bg:"var(--blue)", desc:"Lives in your laptop, causes minor chaos. Holographic vinyl, 6cm." },
+  { id:"soft-focus", emoji:"✨", name:"Soft Focus", tag:"Aesthetic", cat:"aesthetic", price:60, bg:"#fff", desc:"Minimal sparkle for minimal surfaces. Clear vinyl, 5.5cm." },
+  { id:"night-owl", emoji:"🌙", name:"Night Owl", tag:"Aesthetic", cat:"aesthetic", price:60, bg:"var(--blue)", desc:"For the 2am thinkers and late-night scrollers. Matte vinyl, 6cm." },
+  { id:"quiet-mark", emoji:"🤍", name:"Quiet Mark", tag:"Aesthetic", cat:"aesthetic", price:55, bg:"#fff", desc:"Says nothing, means everything. Clear vinyl, 5cm." },
+  { id:"mushy-vibes", emoji:"🍄", name:"Mushy Vibes", tag:"Nature", cat:"nature", price:45, bg:"var(--yellow)", desc:"Forest-floor energy for your water bottle. Glossy vinyl, 6cm." },
+  { id:"tidepool", emoji:"🌊", name:"Tidepool", tag:"Nature", cat:"nature", price:50, bg:"var(--blue)", desc:"A little wave for people who miss the coast. Glossy vinyl, 7cm." },
+  { id:"cherry-on-top", emoji:"🍒", name:"Cherry On Top", tag:"Nature", cat:"nature", price:45, bg:"var(--pink)", desc:"Sweet, small, and a little bit extra. Matte vinyl, 6cm." }
+];
+const CATEGORIES = [
+  { id:"all", label:"All stickers" }, { id:"cute", label:"Cute & characters" },
+  { id:"funny", label:"Funny & meme" }, { id:"aesthetic", label:"Aesthetic & minimal" },
+  { id:"nature", label:"Nature & vibes" }
+];
+function getSticker(id){ return STICKERS.find(s => s.id === id); }
+
+/* ---------------- cart (localStorage) ---------------- */
+const CART_KEY = "peelhouse_cart";
+function readCart(){ try{ return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }catch(e){ return {}; } }
+function writeCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); updateCartBadge(); }
+function addToCart(id, qty=1){ const c=readCart(); c[id]=(c[id]||0)+qty; writeCart(c); }
+function setCartQty(id, qty){ const c=readCart(); if(qty<=0) delete c[id]; else c[id]=qty; writeCart(c); }
+function removeFromCart(id){ const c=readCart(); delete c[id]; writeCart(c); }
+function cartCount(){ return Object.values(readCart()).reduce((s,q)=>s+q,0); }
+function cartTotal(){ const c=readCart(); let t=0; for(const id in c){ const s=getSticker(id); if(s) t+=s.price*c[id]; } return t; }
+function updateCartBadge(){ document.querySelectorAll(".cart-count").forEach(el => el.textContent = cartCount()); }
+
+let _toastTimer;
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+/* ---------------- simple router (sections, no reload) ---------------- */
+function goTo(pageId, opts){
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  const target = document.getElementById("page-" + pageId);
+  if(target) target.classList.add("active");
+  document.querySelectorAll("nav.main .navlink").forEach(n => n.classList.remove("current"));
+  document.querySelectorAll(`nav.main .navlink[data-page="${pageId}"]`).forEach(n => n.classList.add("current"));
+  window.scrollTo({top:0, behavior:"instant"});
+  document.querySelector("nav.main").classList.remove("open");
+
+  if(pageId === "shop"){ renderShop(opts && opts.cat); }
+  if(pageId === "product"){ renderProduct(opts && opts.id); }
+  if(pageId === "cart"){ renderCart(); }
+  if(pageId === "checkout"){ renderCheckout(); }
+}
+
+document.addEventListener("click", (e) => {
+  const nav = e.target.closest(".navlink");
+  if(nav){
+    e.preventDefault();
+    goTo(nav.dataset.page, { cat: nav.dataset.cat });
+  }
+});
+
+/* ---------------- card renderer ---------------- */
+function cardHTML(s){
+  return `
+    <div class="card" data-id="${s.id}">
+      <div class="card-art" style="background:${s.bg}">${s.emoji}</div>
+      <div class="card-body">
+        <div class="card-name">${s.name}</div>
+        <div class="card-tag">${s.tag}</div>
+        <div class="card-row">
+          <span class="price">₹${s.price}</span>
+          <button class="add-btn" data-id="${s.id}" aria-label="Add ${s.name} to cart">+</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function wireCardGrid(gridEl){
+  gridEl.addEventListener("click", (e) => {
+    const addBtn = e.target.closest(".add-btn");
+    if(addBtn){
+      e.stopPropagation();
+      const s = getSticker(addBtn.dataset.id);
+      addToCart(s.id);
+      showToast(`Added "${s.name}" to cart`);
+      return;
+    }
+    const card = e.target.closest(".card");
+    if(card){ goTo("product", { id: card.dataset.id }); }
+  });
+}
+
+/* ---------------- home ---------------- */
+const featuredGrid = document.getElementById("featured-grid");
+featuredGrid.innerHTML = STICKERS.slice(0,4).map(cardHTML).join("");
+wireCardGrid(featuredGrid);
+
+/* ---------------- shop ---------------- */
+const catStrip = document.getElementById("cat-strip");
+catStrip.innerHTML = CATEGORIES.map(c => `<button class="cat-pill" data-cat="${c.id}">${c.label}</button>`).join("");
+const shopGrid = document.getElementById("shop-grid");
+wireCardGrid(shopGrid);
+catStrip.addEventListener("click", (e) => {
+  const pill = e.target.closest(".cat-pill");
+  if(!pill) return;
+  renderShop(pill.dataset.cat);
+});
+function renderShop(cat){
+  cat = cat || "all";
+  document.querySelectorAll(".cat-pill").forEach(p => p.classList.toggle("active", p.dataset.cat === cat));
+  const filtered = cat === "all" ? STICKERS : STICKERS.filter(s => s.cat === cat);
+  document.getElementById("count-label").textContent = `${filtered.length} sticker${filtered.length===1?"":"s"}`;
+  shopGrid.innerHTML = filtered.map(cardHTML).join("");
+}
+
+/* ---------------- product detail ---------------- */
+const relatedGrid = document.getElementById("related-grid");
+wireCardGrid(relatedGrid);
+function renderProduct(id){
+  const s = getSticker(id);
+  const mount = document.getElementById("product-mount");
+  if(!s){
+    mount.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px 0;"><h1>We couldn't find that sticker</h1><button class="btn btn-primary navlink" data-page="shop" style="margin-top:18px;">Back to the shop</button></div>`;
+    document.getElementById("related-grid").innerHTML = "";
+    return;
+  }
+  document.getElementById("crumb-name").textContent = s.name;
+  mount.innerHTML = `
+    <div class="product-art" style="background:${s.bg}">${s.emoji}</div>
+    <div>
+      <span class="product-tag">${s.tag}</span>
+      <h1>${s.name}</h1>
+      <div class="product-price">₹${s.price}</div>
+      <p class="product-desc">${s.desc}</p>
+      <div class="qty-control">
+        <button id="qty-minus" aria-label="Decrease quantity">−</button>
+        <span id="qty-val">1</span>
+        <button id="qty-plus" aria-label="Increase quantity">+</button>
+      </div>
+      <div class="product-ctas">
+        <button class="btn btn-primary" id="add-btn">Add to cart</button>
+        <button class="btn btn-ghost navlink" data-page="cart">View cart</button>
+      </div>
+    </div>`;
+  let qty = 1;
+  const qtyVal = document.getElementById("qty-val");
+  document.getElementById("qty-plus").addEventListener("click", () => { qty = Math.min(qty+1,20); qtyVal.textContent = qty; });
+  document.getElementById("qty-minus").addEventListener("click", () => { qty = Math.max(qty-1,1); qtyVal.textContent = qty; });
+  document.getElementById("add-btn").addEventListener("click", () => { addToCart(s.id, qty); showToast(`Added ${qty} × "${s.name}" to cart`); });
+
+  const related = STICKERS.filter(x => x.cat === s.cat && x.id !== s.id).slice(0,4);
+  document.getElementById("related-grid").innerHTML = related.map(cardHTML).join("");
+}
+
+/* ---------------- cart page ---------------- */
+const SHIPPING_FLAT = 40;
+function renderCart(){
+  const cart = readCart();
+  const ids = Object.keys(cart);
+  const mount = document.getElementById("cart-items");
+  const checkoutBtn = document.getElementById("checkout-btn");
+
+  if(ids.length === 0){
+    mount.innerHTML = `<div class="empty-state"><span class="glyph">🗒️</span><h2>Your cart's empty</h2><p style="color:#555; margin-top:8px;">Go peel something off the sheet.</p><button class="btn btn-primary navlink" data-page="shop" style="margin-top:16px;">Browse stickers</button></div>`;
+    checkoutBtn.style.pointerEvents = "none"; checkoutBtn.style.opacity = ".5";
+  }else{
+    mount.innerHTML = ids.map(id => {
+      const s = getSticker(id); if(!s) return "";
+      const qty = cart[id];
+      return `
+        <div class="cart-item">
+          <div class="cart-item-art" style="background:${s.bg}">${s.emoji}</div>
+          <div>
+            <div class="cart-item-name">${s.name}</div>
+            <div class="cart-item-tag">${s.tag}</div>
+            <button class="remove-btn" data-id="${id}">Remove</button>
+          </div>
+          <div class="qty-control sm">
+            <button class="qty-minus" data-id="${id}" aria-label="Decrease quantity">−</button>
+            <span>${qty}</span>
+            <button class="qty-plus" data-id="${id}" aria-label="Increase quantity">+</button>
+          </div>
+          <div class="cart-item-price">₹${s.price*qty}</div>
+        </div>`;
+    }).join("");
+    checkoutBtn.style.pointerEvents = ""; checkoutBtn.style.opacity = "";
+  }
+
+  const subtotal = cartTotal();
+  const shipping = ids.length === 0 ? 0 : SHIPPING_FLAT;
+  document.getElementById("sum-subtotal").textContent = `₹${subtotal}`;
+  document.getElementById("sum-shipping").textContent = `₹${shipping}`;
+  document.getElementById("sum-total").textContent = `₹${subtotal+shipping}`;
+}
+document.getElementById("cart-items").addEventListener("click", (e) => {
+  const id = e.target.dataset.id;
+  if(!id) return;
+  const cart = readCart();
+  if(e.target.classList.contains("qty-plus")) setCartQty(id, (cart[id]||0)+1);
+  else if(e.target.classList.contains("qty-minus")) setCartQty(id, (cart[id]||0)-1);
+  else if(e.target.classList.contains("remove-btn")) removeFromCart(id);
+  else return;
+  renderCart();
+});
+
+/* ---------------- checkout page ---------------- */
+function renderCheckout(){
+  const cart = readCart();
+  const ids = Object.keys(cart);
+  if(ids.length === 0){ goTo("cart"); return; }
+  document.getElementById("mini-lines").innerHTML = ids.map(id => {
+    const s = getSticker(id); if(!s) return "";
+    return `<div class="mini-line"><span>${s.name} × ${cart[id]}</span><span>₹${s.price*cart[id]}</span></div>`;
+  }).join("") + `<div class="mini-line"><span>Shipping</span><span>₹${SHIPPING_FLAT}</span></div>`;
+  document.getElementById("mini-total").textContent = `₹${cartTotal()+SHIPPING_FLAT}`;
+}
+document.getElementById("checkout-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const payChoice = document.querySelector('input[name="pay"]:checked').value;
+  // ---- Replace this block with a real payment redirect once you have a Razorpay/Stripe link ----
+  // if(payChoice === "link"){ location.href = "https://rzp.io/l/your-link-id"; return; }
+  const name = document.getElementById("name").value;
+  const total = cartTotal() + SHIPPING_FLAT;
+  document.getElementById("confirm-title").textContent = `Thanks, ${name.split(" ")[0] || "friend"}!`;
+  document.getElementById("confirm-body").textContent = `Your order total is ₹${total}. ` +
+    (payChoice === "manual" ? "We'll message you a payment link shortly to confirm." : "If you weren't redirected to payment, we'll follow up to complete it.");
+  writeCart({});
+  goTo("confirmed");
+});
+
+/* ---------------- contact form ---------------- */
+document.getElementById("contact-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.getElementById("c-name").value;
+  const email = document.getElementById("c-email").value;
+  const message = document.getElementById("c-message").value;
+  const subject = encodeURIComponent(`Message from ${name}`);
+  const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+  window.location.href = `mailto:hello@peelhouse.example?subject=${subject}&body=${body}`;
+});
+
+/* ---------------- nav toggle (mobile) ---------------- */
+const navToggle = document.querySelector(".nav-toggle");
+const navMain = document.querySelector("nav.main");
+navToggle.addEventListener("click", () => {
+  navMain.classList.toggle("open");
+  navToggle.setAttribute("aria-expanded", navMain.classList.contains("open") ? "true" : "false");
+});
+
+/* ---------------- init ---------------- */
+updateCartBadge();
+renderShop("all");
+</script>
+</body>
+</html>
